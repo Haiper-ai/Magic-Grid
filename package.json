@@ -16,6 +16,10 @@
     "type": "git",
     "url": "git+https://github.com/e-oj/Magic-Grid.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "keywords": [
     "js",
     "grid",
