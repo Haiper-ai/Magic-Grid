@@ -118,6 +118,12 @@ class MagicGrid extends EventEmitter {
     let numCols = this.columns || Math.floor((width + this.gutter) / colWidth) || 1;
     let cols = [];
 
+    const itemsLength = this.items().length;
+
+    if (numCols > itemsLength) {
+      numCols = itemsLength;
+    }
+    
     if (this.maxColumns && numCols > this.maxColumns) {
       numCols = this.maxColumns;
     }
