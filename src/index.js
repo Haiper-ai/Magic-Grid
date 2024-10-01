@@ -8,17 +8,17 @@
  */
 
 const EventEmitter = require("./event-emitter.js");
-const {checkParams, getMin} = require("./utils.js");
-const {READY_EVENT, POSITIONING_COMPLETE_EVENT, REPOSITIONING_DELAY} = require("./constant.js");
+const { checkParams, getMin } = require("./utils.js");
+const { READY_EVENT, POSITIONING_COMPLETE_EVENT, REPOSITIONING_DELAY } = require("./constant.js");
 
-class MagicGrid extends EventEmitter{
+class MagicGrid extends EventEmitter {
   /**
    * Initializes the necessary variables
    * for a magic grid.
    *
    * @param config - configuration object
    */
-  constructor (config) {
+  constructor(config) {
     super();
     checkParams(config);
 
@@ -34,6 +34,7 @@ class MagicGrid extends EventEmitter{
     this.static = config.static || false;
     this.size = config.items;
     this.gutter = config.gutter;
+    this.columns = config.columns || false;
     this.maxColumns = config.maxColumns || false;
     this.useMin = config.useMin || false;
     this.useTransform = config.useTransform;
@@ -50,12 +51,12 @@ class MagicGrid extends EventEmitter{
    *
    * @param container {HTMLElement}
    */
-  setContainer(container){
-      const previousContainer =  this.container;
-      this.container = container;
+  setContainer(container) {
+    const previousContainer = this.container;
+    this.container = container;
 
-      this.resizeObserver.unobserve(previousContainer);
-      this.resizeObserver.observe(container);
+    this.resizeObserver.unobserve(previousContainer);
+    this.resizeObserver.observe(container);
   }
 
   /**
@@ -63,7 +64,7 @@ class MagicGrid extends EventEmitter{
    *
    * @private
    */
-  initStyles () {
+  initStyles() {
     if (!this.ready()) return;
 
     this.container.style.position = "relative";
@@ -90,7 +91,7 @@ class MagicGrid extends EventEmitter{
    * @return {HTMLCollection}
    * @private
    */
-  items () {
+  items() {
     return this.container.children;
   }
 
@@ -100,7 +101,7 @@ class MagicGrid extends EventEmitter{
    * @return width of a column in the grid
    * @private
    */
-  colWidth () {
+  colWidth() {
     return this.items()[0].getBoundingClientRect().width + this.gutter;
   }
 
@@ -111,10 +112,10 @@ class MagicGrid extends EventEmitter{
    * @return {{cols: Array, wSpace: number}}
    * @private
    */
-  setup () {
+  setup() {
     let width = this.container.getBoundingClientRect().width;
     let colWidth = this.colWidth();
-    let numCols = Math.floor(width/colWidth) || 1;
+    let numCols = this.columns || Math.floor((width + this.gutter) / colWidth) || 1;
     let cols = [];
 
     if (this.maxColumns && numCols > this.maxColumns) {
@@ -122,12 +123,12 @@ class MagicGrid extends EventEmitter{
     }
 
     for (let i = 0; i < numCols; i++) {
-      cols[i] = {height: 0, index: i};
+      cols[i] = { height: 0, index: i };
     }
 
     let wSpace = width - numCols * colWidth + this.gutter;
 
-    return {cols, wSpace};
+    return { cols, wSpace };
   }
 
   /**
@@ -139,7 +140,7 @@ class MagicGrid extends EventEmitter{
    * @return {*} next available column
    * @private
    */
-  nextCol (cols, i) {
+  nextCol(cols, i) {
     if (this.useMin) {
       return getMin(cols);
     }
@@ -153,9 +154,9 @@ class MagicGrid extends EventEmitter{
    * and index then stretches the container to
    * the height of the grid.
    */
-  positionItems () {
+  positionItems() {
 
-    if(this.isPositioning){
+    if (this.isPositioning) {
       return;
     }
 
@@ -177,17 +178,17 @@ class MagicGrid extends EventEmitter{
       let left = col.index * colWidth + wSpace + "px";
       let top = col.height + topGutter + "px";
 
-      if(this.useTransform){
+      if (this.useTransform) {
         item.style.transform = `translate(${left}, ${top})`;
       }
-      else{
+      else {
         item.style.top = top;
         item.style.left = left;
       }
 
       col.height += item.getBoundingClientRect().height + topGutter;
 
-      if(col.height > maxHeight){
+      if (col.height > maxHeight) {
         maxHeight = col.height;
       }
     }
@@ -203,7 +204,7 @@ class MagicGrid extends EventEmitter{
    *
    * @return {Boolean} true if every item is present
    */
-  ready () {
+  ready() {
     if (this.static) return true;
     return this.items().length >= this.size;
   }
@@ -216,7 +217,7 @@ class MagicGrid extends EventEmitter{
    *
    * @private
    */
-  getReady () {
+  getReady() {
     let interval = setInterval(() => {
       this.container = document.querySelector(this.containerClass);
 
@@ -246,7 +247,7 @@ class MagicGrid extends EventEmitter{
    * repositions them whenever the
    * window size changes.
    */
-  listen () {
+  listen() {
     if (this.ready()) {
 
       window.addEventListener("resize", () => {

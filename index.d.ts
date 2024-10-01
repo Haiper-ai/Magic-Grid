@@ -13,6 +13,7 @@ export interface MagicGridProps {
     items?: number;
     gutter?: number;
     maxColumns?: number;
+    columns?: number;
     useMin?: boolean;
     useTransform?: boolean;
     animate?: boolean;
@@ -56,6 +57,7 @@ declare class MagicGrid extends EventEmitter {
     static: boolean;
     size: number;
     gutter: number;
+    columns: number | false;
     maxColumns: number | false;
     useMin: boolean;
     useTransform: boolean;
