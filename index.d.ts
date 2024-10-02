@@ -67,6 +67,7 @@ declare class MagicGrid extends EventEmitter {
     styledItems: Set<HTMLElement>;
     resizeObserver: ResizeObserver | null;
     isPositioning: boolean;
+    initialPaddings?: number[]
 
     /**
      * class constructor
