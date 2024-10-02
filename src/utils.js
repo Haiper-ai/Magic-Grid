@@ -55,7 +55,8 @@ const getMin = cols => {
   let min = cols[0];
 
   for (let col of cols) {
-    if (col.height < min.height) min = col;
+    // add a small buffer to the height
+    if (col.height < min.height - 5) min = col;
   }
 
   return min;
