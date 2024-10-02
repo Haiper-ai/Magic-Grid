@@ -40,6 +40,7 @@ class MagicGrid extends EventEmitter {
     this.useTransform = config.useTransform;
     this.animate = config.animate || false;
     this.center = config.center;
+    this.initialPaddings = config.initialPaddings;
     this.styledItems = new Set();
     this.resizeObserver = null;
     this.isPositioning = false;
@@ -129,7 +130,8 @@ class MagicGrid extends EventEmitter {
     }
 
     for (let i = 0; i < numCols; i++) {
-      cols[i] = { height: 0, index: i };
+      const padding = (this.initialPaddings ? this.initialPaddings[i] : 0) || 0;
+      cols[i] = { height: padding || 0, index: i };
     }
 
     let wSpace = width - numCols * colWidth + this.gutter;

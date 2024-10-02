@@ -18,6 +18,7 @@ export interface MagicGridProps {
     useTransform?: boolean;
     animate?: boolean;
     center?: boolean;
+    initialPaddings?: number[]
 }
 
 /**
