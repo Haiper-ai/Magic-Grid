@@ -202,6 +202,7 @@ class MagicGrid extends EventEmitter {
     }
 
     this.container.style.height = maxHeight + this.gutter + "px";
+    this.container.style.minHeight = maxHeight + this.gutter + "px";
     this.isPositioning = false;
     this.emit(POSITIONING_COMPLETE_EVENT);
   }
