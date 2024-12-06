@@ -93,7 +93,7 @@ class MagicGrid extends EventEmitter {
    * @private
    */
   items() {
-    return this.container.children;
+    return this.container ? this.container.children : [];
   }
 
   /**
