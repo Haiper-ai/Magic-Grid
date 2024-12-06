@@ -1,6 +1,6 @@
 {
   "name": "@haiper/magic-grid",
-  "version": "3.4.13",
+  "version": "3.4.14",
   "description": "Super lightweight javascript library for dynamic grid layouts.",
   "main": "src/index.js",
   "scripts": {
