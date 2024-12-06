@@ -103,7 +103,9 @@ class MagicGrid extends EventEmitter {
    * @private
    */
   colWidth() {
-    return this.items()[0].getBoundingClientRect().width + this.gutter;
+    const items = this.items();
+    const firstItem = items[0];
+    return firstItem ? firstItem.getBoundingClientRect().width + this.gutter : 0;
   }
 
   /**
